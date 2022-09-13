@@ -1,0 +1,27 @@
+.todo-item {
+  width: 250px;
+  border: 1px solid black;
+  margin: 0 auto;
+  border-radius: 6px;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  padding: 16px;
+
+  .todo-item-title {
+    font-weight: bold;
+  }
+  .todo-item-creator {
+
+  }
+  .todo-item-status {
+    color: green;
+  }
+  .todo-item-divider {
+    flex: 1;
+    width: 100%;
+  }
+  .todo-item-description {
+
+  }
+}
