@@ -1,15 +1,19 @@
+import { useState } from "react";
 import Header from "../components/header/Header";
 import MainContent from "../components/main-content/MainContent";
 import SideBar from "../components/side-bar/SideBar";
+import { FORM_PAGE, LIST_PAGE } from "../const";
 import "./MainLayout.scss";
 
 function MainLayout() {
+  const [currentPage, setCurrentPage] = useState(FORM_PAGE);
+
   return (
     <div className="main-layout">
       <Header />
       <div className="content-layout">
         <SideBar />
-        <MainContent />
+        <MainContent page={currentPage} />
       </div>
     </div>
   );
