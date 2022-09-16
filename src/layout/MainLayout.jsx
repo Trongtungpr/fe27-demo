@@ -6,11 +6,12 @@ import { FORM_PAGE, LIST_PAGE } from "../const";
 import "./MainLayout.scss";
 
 function MainLayout() {
-  const [currentPage, setCurrentPage] = useState(FORM_PAGE);
+  const [currentPage, setCurrentPage] = useState(LIST_PAGE);
 
   return (
     <div className="main-layout">
-      <Header />
+      {/* Callback */}
+      <Header page={currentPage} onOpenFormPage={setCurrentPage} />
       <div className="content-layout">
         <SideBar />
         <MainContent page={currentPage} />
