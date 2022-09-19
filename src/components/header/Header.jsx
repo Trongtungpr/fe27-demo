@@ -1,13 +1,14 @@
+import { useNavigate } from "react-router-dom";
+import { ROUTE } from "../../const";
 import { getNextPage } from "../../utils";
 
 import "./Header.scss";
 
 function Header(props) {
-  const { onOpenFormPage, page } = props;
+  const navigate = useNavigate();
 
   const onAddButtonClick = () => {
-    const nextPage = getNextPage(page);
-    onOpenFormPage(nextPage);
+    navigate(ROUTE.addNew);
   };
 
   return (
