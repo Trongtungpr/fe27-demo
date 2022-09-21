@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { localStorageKey, TASK_STATUS } from "../../const";
 import { localStorageUtil } from "../../utils";
+import { v4 as uuidv4 } from "uuid";
 import "./style.scss";
 
-function AddNewForm(props) {
+function AddNewForm() {
   const { set, get } = localStorageUtil(localStorageKey.todoItems, []);
 
   const [title, setTitle] = useState();
@@ -19,6 +20,7 @@ function AddNewForm(props) {
       creator,
       status,
       description,
+      id: uuidv4(),
     };
     const oldList = JSON.parse(get());
     set([newTask, ...oldList]);
@@ -26,6 +28,7 @@ function AddNewForm(props) {
 
   return (
     <form className="AddNewForm">
+      <h2>Add new form</h2>
       <div>
         <label>title</label>
         <input

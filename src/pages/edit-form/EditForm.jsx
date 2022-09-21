@@ -2,36 +2,46 @@ import { useState } from "react";
 import { localStorageKey, TASK_STATUS } from "../../const";
 import { localStorageUtil } from "../../utils";
 import "./style.scss";
+import { useParams } from "react-router-dom";
+import { useEffect } from "react";
 
-function EditForm(props) {
+function EditForm() {
   const { set, get } = localStorageUtil(localStorageKey.todoItems, []);
+  const { id } = useParams();
 
-  const [title, setTitle] = useState();
-  const [creator, setCreator] = useState();
-  const [status, setStatus] = useState();
-  const [description, setDescription] = useState();
+  const [todoItem, setTodoItem] = useState({
+    id: "",
+    title: "",
+    creator: "",
+    status: "",
+    description: "",
+  });
+
+  useEffect(() => {
+    const list = JSON.parse(get());
+    const item = list.find((item) => item.id === id);
+    console.log(item);
+    setTodoItem(item);
+  }, [id]);
 
   // e: Synthetic Event
   const handleSubmit = (e) => {
     e.preventDefault();
-    const newTask = {
-      title,
-      creator,
-      status,
-      description,
-    };
-    const oldList = JSON.parse(get());
-    set([newTask, ...oldList]);
   };
 
   return (
     <form className="EditForm">
+      <h2>Edit form</h2>
       <div>
         <label>title</label>
         <input
+          value={todoItem.title}
           onClick={(e) => {}}
           onChange={(e) => {
-            setTitle(e.target.value);
+            setTodoItem({
+              ...todoItem,
+              title: e.target.value,
+            });
           }}
           placeholder="title"
         />
@@ -39,33 +49,36 @@ function EditForm(props) {
       <div>
         <label>creator</label>
         <input
+          value={todoItem.creator}
           onChange={(e) => {
-            setCreator(e.target.value);
+            setTodoItem({
+              ...todoItem,
+              creator: e.target.value,
+            });
           }}
           placeholder="creator"
         />
       </div>
-      {/* <div>
-        <label>status</label>
-        <input
-          onChange={(e) => {
-            setStatus(e.target.value);
-          }}
-          placeholder="status"
-        />
-      </div> */}
       <div>
         <label>description</label>
         <input
+          value={todoItem.description}
           onChange={(e) => {
-            setDescription(e.target.value);
+            setTodoItem({
+              ...todoItem,
+              description: e.target.value,
+            });
           }}
           placeholder="description"
         />
       </div>
       <div
+        defaultValue={todoItem.status}
         onChange={(e) => {
-          setStatus(e.target.value);
+          setTodoItem({
+            ...todoItem,
+            status: e.target.value,
+          });
         }}
       >
         <input type="radio" value={TASK_STATUS.new} name="status" /> NEW

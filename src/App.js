@@ -3,6 +3,7 @@ import "./App.css";
 import { ROUTE } from "./const";
 import MainLayout from "./layout/MainLayout";
 import AddNewForm from "./pages/add-new-form/AddNewForm";
+import EditForm from "./pages/edit-form/EditForm";
 import TodoItemList from "./pages/todo-item-list/TodoItemList";
 
 // This is a components
@@ -29,6 +30,10 @@ function App() {
         <Route
           path={ROUTE.addNew}
           element={<MainLayout content={<AddNewForm />} />}
+        />
+        <Route
+          path={`${ROUTE.editForm}/:id`}
+          element={<MainLayout content={<EditForm />} />}
         />
       </Routes>
       {/* <MainLayout /> */}

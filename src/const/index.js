@@ -14,6 +14,7 @@ export const ROUTE = {
   done: "/done",
   addNew: "/add-new",
   detail: "/detail",
+  editForm: "/edit-form",
   notFound: "*",
 };
 

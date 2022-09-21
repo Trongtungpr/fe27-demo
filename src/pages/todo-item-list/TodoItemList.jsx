@@ -25,6 +25,7 @@ const TodoItemList = (props) => {
             creator={item.creator}
             status={item.status}
             description={item.description}
+            id={item.id}
           />
         );
       })}
