@@ -1,9 +1,7 @@
 import { useState } from "react";
-import Header from "../components/header/Header";
-import MainContent from "../components/main-content/MainContent";
-import SideBar from "../components/side-bar/SideBar";
-import { FORM_PAGE, LIST_PAGE } from "../const";
+import { LIST_PAGE } from "../const";
 import "./MainLayout.scss";
+import { Header, SideBar } from "../components";
 
 function MainLayout(props) {
   const { content } = props;
@@ -15,7 +13,7 @@ function MainLayout(props) {
       <Header page={currentPage} onOpenFormPage={setCurrentPage} />
       <div className="content-layout">
         <SideBar />
-        {content}
+        <div className="main-content">{content}</div>
         {/* <MainContent page={currentPage} /> */}
       </div>
     </div>
