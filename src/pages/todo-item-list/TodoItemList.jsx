@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { TodoItem } from "../../components/todo-item/TodoItem";
 import { localStorageKey } from "../../const";
 import { localStorageUtil } from "../../utils";
@@ -9,6 +10,7 @@ export const Pagination = () => {};
 const TodoItemList = (props) => {
   const { get } = localStorageUtil(localStorageKey.todoItems, []);
   const [todoListData, setTodoListData] = useState([]);
+  let [searchParamsGetter] = useSearchParams();
 
   useEffect(() => {
     const list = JSON.parse(get());
@@ -17,6 +19,7 @@ const TodoItemList = (props) => {
 
   return (
     <div className="todo-item-list">
+      <div>search: {searchParamsGetter.get("search")}</div>
       {todoListData.map((item, index) => {
         return (
           <TodoItem

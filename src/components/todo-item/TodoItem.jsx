@@ -9,7 +9,10 @@ export const TodoItem = (props) => {
   const navigate = useNavigate();
 
   const goToEditForm = () => {
-    navigate(`${ROUTE.editForm}/${props.id}`);
+    navigate(`${ROUTE.editForm}/${props.id}`, {
+      replace: true,
+      state: props.title,
+    });
   };
 
   return (

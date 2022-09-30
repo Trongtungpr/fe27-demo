@@ -4,11 +4,15 @@ import { localStorageUtil } from "../../utils";
 import "./style.scss";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function EditForm() {
   const { set, get } = localStorageUtil(localStorageKey.todoItems, []);
+  // lay param tu url
   const { id } = useParams();
+  const navigate = useNavigate();
 
+  /// state
   const [todoItem, setTodoItem] = useState({
     id: "",
     title: "",
@@ -16,17 +20,64 @@ function EditForm() {
     status: "",
     description: "",
   });
+  const [defaultTodoItem, setDefaultTodoItem] = useState({
+    id: "",
+    title: "",
+    creator: "",
+    status: "",
+    description: "",
+  });
 
+  // componentDidMount
   useEffect(() => {
+    // lay list tu local sotre
     const list = JSON.parse(get());
+    // tim item can chinh sua = id
     const item = list.find((item) => item.id === id);
-    console.log(item);
+    // luu tru gia tri vao state
     setTodoItem(item);
+    setDefaultTodoItem(item);
   }, [id]);
 
   // e: Synthetic Event
   const handleSubmit = (e) => {
     e.preventDefault();
+    const list = JSON.parse(get());
+    // Cap nhat du lieu cho item can chinh sua
+    const newList = list.map((item) => {
+      if (item.id === todoItem.id) return todoItem;
+
+      return item;
+    });
+    // Set xuong local storage
+    set([...newList]);
+    navigate(-1);
+  };
+
+  const handleDelete = (e) => {
+    e.preventDefault();
+    const list = JSON.parse(get());
+    // tim  vi tri
+    const currentItemIndex = list.findIndex((item) => item.id === todoItem.id);
+    // xoa khoi mang
+    list.splice(currentItemIndex, 1);
+    // Set local storage
+    set(list);
+    //TRo ve trang truoc
+    navigate(-1);
+  };
+
+  const handleDelete2 = (e) => {
+    e.preventDefault();
+    const list = JSON.parse(get());
+    const newList = list.filter((item) => item.id !== todoItem.id);
+    set(newList);
+    navigate(-1);
+  };
+
+  const handleReset = (e) => {
+    e.preventDefault();
+    setTodoItem(defaultTodoItem);
   };
 
   return (
@@ -73,7 +124,6 @@ function EditForm() {
         />
       </div>
       <div
-        defaultValue={todoItem.status}
         onChange={(e) => {
           setTodoItem({
             ...todoItem,
@@ -81,12 +131,36 @@ function EditForm() {
           });
         }}
       >
-        <input type="radio" value={TASK_STATUS.new} name="status" /> NEW
-        <input type="radio" value={TASK_STATUS.doing} name="status" /> DOING
-        <input type="radio" value={TASK_STATUS.done} name="status" /> DONE
+        <input
+          checked={todoItem.status === TASK_STATUS.new}
+          type="radio"
+          value={TASK_STATUS.new}
+          name="status"
+        />
+        NEW
+        <input
+          checked={todoItem.status === TASK_STATUS.doing}
+          type="radio"
+          value={TASK_STATUS.doing}
+          name="status"
+        />
+        DOING
+        <input
+          checked={todoItem.status === TASK_STATUS.done}
+          type="radio"
+          value={TASK_STATUS.done}
+          name="status"
+        />
+        DONE
       </div>
       <button onClick={handleSubmit} type="submit" className="submit-btn">
         Submit
+      </button>
+      <button onClick={handleDelete} type="submit" className="submit-btn">
+        Delete
+      </button>
+      <button onClick={handleReset} type="submit" className="submit-btn">
+        Reset
       </button>
     </form>
   );
