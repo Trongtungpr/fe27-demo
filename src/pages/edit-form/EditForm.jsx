@@ -1,16 +1,20 @@
 import { useState } from "react";
-import { localStorageKey, TASK_STATUS } from "../../const";
+import { localStorageKey, ROUTE, TASK_STATUS } from "../../const";
 import { localStorageUtil } from "../../utils";
 import "./style.scss";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { TodoListContext } from "../../context/TodoListContext";
 
 function EditForm() {
   const { set, get } = localStorageUtil(localStorageKey.todoItems, []);
   // lay param tu url
   const { id } = useParams();
   const navigate = useNavigate();
+
+  const { updateItem, deleteItem } = useContext(TodoListContext);
 
   /// state
   const [todoItem, setTodoItem] = useState({
@@ -42,37 +46,32 @@ function EditForm() {
   // e: Synthetic Event
   const handleSubmit = (e) => {
     e.preventDefault();
-    const list = JSON.parse(get());
-    // Cap nhat du lieu cho item can chinh sua
-    const newList = list.map((item) => {
-      if (item.id === todoItem.id) return todoItem;
+    // const list = JSON.parse(get());
+    // // Cap nhat du lieu cho item can chinh sua
+    // const newList = list.map((item) => {
+    //   if (item.id === todoItem.id) return todoItem;
 
-      return item;
-    });
-    // Set xuong local storage
-    set([...newList]);
-    navigate(-1);
+    //   return item;
+    // });
+    // // Set xuong local storage
+    // set([...newList]);
+    updateItem(todoItem);
+    navigate(ROUTE.all);
   };
 
   const handleDelete = (e) => {
     e.preventDefault();
-    const list = JSON.parse(get());
-    // tim  vi tri
-    const currentItemIndex = list.findIndex((item) => item.id === todoItem.id);
-    // xoa khoi mang
-    list.splice(currentItemIndex, 1);
-    // Set local storage
-    set(list);
-    //TRo ve trang truoc
-    navigate(-1);
-  };
+    // const list = JSON.parse(get());
+    // // tim  vi tri
+    // const currentItemIndex = list.findIndex((item) => item.id === todoItem.id);
+    // // xoa khoi mang
+    // list.splice(currentItemIndex, 1);
+    // // Set local storage
+    // set(list);
 
-  const handleDelete2 = (e) => {
-    e.preventDefault();
-    const list = JSON.parse(get());
-    const newList = list.filter((item) => item.id !== todoItem.id);
-    set(newList);
-    navigate(-1);
+    deleteItem(todoItem.id);
+    //TRo ve trang truoc
+    navigate(ROUTE.all);
   };
 
   const handleReset = (e) => {

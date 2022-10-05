@@ -1,18 +1,20 @@
 import { useState } from "react";
-import { localStorageKey, TASK_STATUS } from "../../const";
-import { localStorageUtil } from "../../utils";
+import { ROUTE, TASK_STATUS } from "../../const";
 import { v4 as uuidv4 } from "uuid";
 import "./style.scss";
+import { useContext } from "react";
+import { TodoListContext } from "../../context/TodoListContext";
+import { useNavigate } from "react-router-dom";
 
 function AddNewForm() {
-  const { set, get } = localStorageUtil(localStorageKey.todoItems, []);
+  const navigate = useNavigate();
+  const { addItem } = useContext(TodoListContext);
 
   const [title, setTitle] = useState();
   const [creator, setCreator] = useState();
   const [status, setStatus] = useState();
   const [description, setDescription] = useState();
 
-  // e: Synthetic Event
   const handleSubmit = (e) => {
     e.preventDefault();
     const newTask = {
@@ -22,8 +24,8 @@ function AddNewForm() {
       description,
       id: uuidv4(),
     };
-    const oldList = JSON.parse(get());
-    set([newTask, ...oldList]);
+    addItem(newTask);
+    navigate(ROUTE.all);
   };
 
   return (
