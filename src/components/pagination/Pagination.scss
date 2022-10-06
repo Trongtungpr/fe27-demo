@@ -1,0 +1,13 @@
+.pagination {
+  display: flex;
+
+  .pagination-item {
+    border: 1px solid black;
+
+    &.active {
+      background-color: blue;
+      color: white;
+      border: 1px solid blue;
+    }
+  }
+}

@@ -1,52 +1,37 @@
-import { useEffect } from "react";
-import { useState } from "react";
-import { useContext } from "react";
+import Pagination from "../../components/pagination/Pagination";
 import { TodoItem } from "../../components/todo-item/TodoItem";
-import { TodoListContext } from "../../context/TodoListContext";
+import { ITEM_PER_PAGE } from "../../const";
+import { usePagination, useTodoItemList } from "./hook";
 import "./TodoItemList.scss";
-
-export const Pagination = () => {};
-
-// Custom hook
-const useTodoItemList = (status) => {
-  // `use` prefix
-  const { data } = useContext(TodoListContext);
-  const [currentData, setCurrentData] = useState([]);
-
-  useEffect(() => {
-    // Cho truong hop all
-    if (!status) {
-      setCurrentData(data);
-      return;
-    }
-
-    // filter theo status cua moi trang
-    const filterList = data.filter((item) => item?.status === status);
-    setCurrentData(filterList);
-  }, [data, status]);
-
-  return {
-    currentData,
-  };
-};
 
 const TodoItemList = (props) => {
   const { currentData } = useTodoItemList(props.status);
+  const { jumpPage, dataPerPage, currentPage, maxPage } = usePagination(
+    currentData,
+    ITEM_PER_PAGE
+  );
 
   return (
-    <div className="todo-item-list">
-      {currentData.map((item, index) => {
-        return (
-          <TodoItem
-            key={index}
-            title={item.title}
-            creator={item.creator}
-            status={item.status}
-            description={item.description}
-            id={item.id}
-          />
-        );
-      })}
+    <div className="todo-item-list-container">
+      <div className="todo-item-list">
+        {dataPerPage.map((item, index) => {
+          return (
+            <TodoItem
+              key={index}
+              title={item.title}
+              creator={item.creator}
+              status={item.status}
+              description={item.description}
+              id={item.id}
+            />
+          );
+        })}
+      </div>
+      <Pagination
+        currentPage={currentPage}
+        jumpPage={jumpPage}
+        maxPage={maxPage}
+      />
     </div>
   );
 };

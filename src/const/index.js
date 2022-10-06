@@ -1,6 +1,8 @@
 export const LIST_PAGE = "LIST_PAGE";
 export const FORM_PAGE = "FORM_PAGE";
 
+export const ITEM_PER_PAGE = 4;
+
 export const TASK_STATUS = {
   new: "NEW",
   doing: "DOING",
