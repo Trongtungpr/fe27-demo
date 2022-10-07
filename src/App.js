@@ -7,6 +7,7 @@ import MainLayout from "./layout/MainLayout";
 import AddNewForm from "./pages/add-new-form/AddNewForm";
 import EditForm from "./pages/edit-form/EditForm";
 import TodoItemList from "./pages/todo-item-list/TodoItemList";
+import { clientServer } from "./server/clientServer";
 import { localStorageUtil } from "./utils";
 
 // This is a components
@@ -14,32 +15,54 @@ function App() {
   const { get, set } = localStorageUtil(localStorageKey.todoItems, []);
   const [todoList, setTodoList] = useState([]);
 
+  // component
   useEffect(() => {
-    const listFromLocalStorage = JSON.parse(get());
-    setTodoList(listFromLocalStorage);
+    fetchTodoItem();
   }, []);
 
+  const fetchTodoItem = () => {
+    clientServer
+      .get("todoItems")
+      .then((res) => {
+        setTodoList((res.data ?? []).reverse());
+      })
+      .catch((e) => {
+        console.log("error:", e);
+      });
+  };
+
   const handleAddItem = (newTask) => {
-    const oldList = JSON.parse(get());
-    const newList = [newTask, ...oldList];
-    setTodoList(newList);
-    set(newList);
+    clientServer
+      .post("todoItems", newTask)
+      .then((res) => {
+        console.log(res);
+        fetchTodoItem();
+      })
+      .catch((err) => {
+        console.log("error:", err);
+      });
   };
   const handleUpdateItem = (updatedTask) => {
-    const oldList = JSON.parse(get());
-    const newList = oldList.map((item) => {
-      if (updatedTask.id === item.id) return updatedTask;
-
-      return item;
-    });
-    setTodoList([...newList]);
-    set([...newList]);
+    clientServer
+      .patch(`todoItems/${updatedTask.id}`, updatedTask)
+      .then((res) => {
+        console.log(res);
+        fetchTodoItem();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   const handleDeleteItem = (id) => {
-    const oldList = JSON.parse(get());
-    const newList = oldList.filter((item) => item.id !== id);
-    setTodoList([...newList]);
-    set([...newList]);
+    clientServer
+      .delete(`todoItems/${id}`)
+      .then((res) => {
+        console.log(res);
+        fetchTodoItem();
+      })
+      .catch((err) => {
+        console.log("error: ", err);
+      });
   };
 
   return (

@@ -9,7 +9,7 @@ import { useContext } from "react";
 import { TodoListContext } from "../../context/TodoListContext";
 
 function EditForm() {
-  const { set, get } = localStorageUtil(localStorageKey.todoItems, []);
+  const { data } = useContext(TodoListContext);
   // lay param tu url
   const { id } = useParams();
   const navigate = useNavigate();
@@ -34,11 +34,7 @@ function EditForm() {
 
   // componentDidMount
   useEffect(() => {
-    // lay list tu local sotre
-    const list = JSON.parse(get());
-    // tim item can chinh sua = id
-    const item = list.find((item) => item.id === id);
-    // luu tru gia tri vao state
+    const item = data.find((item) => item.id === id);
     setTodoItem(item);
     setDefaultTodoItem(item);
   }, [id]);

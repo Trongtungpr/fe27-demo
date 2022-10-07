@@ -1,0 +1,46 @@
+{
+  "todoItems": [
+    {
+      "id": "93436e10-93b7-46a6-afd4-3ad105c87e11",
+      "title": "Nau Com",
+      "creator": "Me",
+      "description": "Nau Com Som",
+      "status": "DOING"
+    },
+    {
+      "id": "8ea47616-02f9-44 84-a49b-73d0f07c0446",
+      "title": "An Com",
+      "creator": "Ba",
+      "description": "Nau com xong thi an",
+      "status": "NEW"
+    },
+    {
+      "id": "9f62cb18-a5fb-4aeb-ba13-b39e7820ed5d",
+      "title": "Hoc bai",
+      "creator": "Thay giao",
+      "description": "Nho lam bai tap",
+      "status": "DONE"
+    },
+    {
+      "id": "77bc0049-c09b-42bf-8cb6-4361733dca32",
+      "title": "Tam rua",
+      "creator": "Phuc Tran",
+      "description": "Tam rua dung gio",
+      "status": "DOING"
+    },
+    {
+      "id": "feecf178-0869-43a7-8dd2-f7c5fab8123a",
+      "title": "Di choi",
+      "creator": "Phuc Tran",
+      "description": "Di choi luc 7h",
+      "status": "DOING"
+    },
+    {
+      "title": "Di lam",
+      "creator": "Phuc Tran",
+      "status": "DOING",
+      "description": "Di lam vao luc 8h",
+      "id": "79829392-f4a8-4d38-9641-1ad40404be98"
+    }
+  ]
+}
