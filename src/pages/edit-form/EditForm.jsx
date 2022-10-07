@@ -7,9 +7,9 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { TodoListContext } from "../../context/TodoListContext";
+import { clientServer } from "../../server/clientServer";
 
 function EditForm() {
-  const { data } = useContext(TodoListContext);
   // lay param tu url
   const { id } = useParams();
   const navigate = useNavigate();
@@ -34,9 +34,15 @@ function EditForm() {
 
   // componentDidMount
   useEffect(() => {
-    const item = data.find((item) => item.id === id);
-    setTodoItem(item);
-    setDefaultTodoItem(item);
+    clientServer
+      .get(`todoItems/${id}`)
+      .then((res) => {
+        setTodoItem(res.data);
+        setDefaultTodoItem(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, [id]);
 
   // e: Synthetic Event

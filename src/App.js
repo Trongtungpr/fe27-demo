@@ -8,12 +8,21 @@ import AddNewForm from "./pages/add-new-form/AddNewForm";
 import EditForm from "./pages/edit-form/EditForm";
 import TodoItemList from "./pages/todo-item-list/TodoItemList";
 import { clientServer } from "./server/clientServer";
-import { localStorageUtil } from "./utils";
+import { observer } from "mobx-react";
+import { todoStore } from "./mobx-store/TodoItemStore";
 
 // This is a components
-function App() {
-  const { get, set } = localStorageUtil(localStorageKey.todoItems, []);
-  const [todoList, setTodoList] = useState([]);
+function App({ todoListStore }) {
+  // const [todoList, setTodoList] = useState([]);
+
+  console.log(todoListStore.todoItemsCount);
+  console.log(todoListStore.getTodoItems());
+
+  const setTodoList = (todoList) => {
+    todoStore.setTodoItems(todoList);
+  };
+
+  const todoList = todoStore.getTodoItems();
 
   // component
   useEffect(() => {
@@ -116,4 +125,4 @@ function App() {
   );
 }
 
-export default App;
+export default observer(() => <App todoListStore={todoStore} />);
