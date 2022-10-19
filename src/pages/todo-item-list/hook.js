@@ -1,10 +1,18 @@
 import { useContext, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { TodoListContext } from "../../context/TodoListContext";
 
 // Custom hook
 export const useTodoItemList = (status) => {
   // `use` prefix
-  const { data } = useContext(TodoListContext);
+
+
+  //context
+  // const { data } = useContext(TodoListContext);
+
+  //redux
+  const data = useSelector((state) => state.todoListReducer.data);
+  // console.log(data);
   const [currentData, setCurrentData] = useState([]);
 
   useEffect(() => {

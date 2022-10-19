@@ -5,10 +5,14 @@ import "./style.scss";
 import { useContext } from "react";
 import { TodoListContext } from "../../context/TodoListContext";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addTodoItemAsync } from "../../redux/slice/todoListSlice";
 
 function AddNewForm() {
   const navigate = useNavigate();
-  const { addItem } = useContext(TodoListContext);
+  const dispatch = useDispatch
+
+  // const { addItem } = useContext(TodoListContext);
 
   const [title, setTitle] = useState();
   const [creator, setCreator] = useState();
@@ -24,8 +28,11 @@ function AddNewForm() {
       description,
       id: uuidv4(),
     };
-    addItem(newTask);
-    navigate(ROUTE.all);
+
+    dispatch(addTodoItemAsync(newTask));
+    // addItem(newTask);
+
+    // navigate(ROUTE.all);
   };
 
   return (
